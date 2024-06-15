@@ -124,41 +124,113 @@ void simulateInvestment(const string& username) {
     }
     inFile.close();
 
+   const int NUM_COMPANIES = 10;
     const int APPLE = 1;
     const int GOOGLE = 2;
     const int MICROSOFT = 3;
     const int AMAZON = 4;
     const int TESLA = 5;
+    const int FACEBOOK = 6;
+    const int NETFLIX = 7;
+    const int IBM = 8;
+    const int ORACLE = 9;
+    const int INTEL = 10;
 
-    srand(time(0)); 
-    int random = rand() % 5 + 1; 
+    const string LOW_RISK[] = {"Apple", "Google", "Microsoft", "IBM", "Oracle"};
+    const string HIGH_RISK[] = {"Amazon", "Tesla", "Facebook", "Netflix", "Intel"};
+    const int LOW_RISK_COUNT = 5;
+    const int HIGH_RISK_COUNT = 5;
 
-    double appleInvestment = balance * 0.1;
-    double googleInvestment = balance * 0.2;
-    double microsoftInvestment = balance * 0.3;
-    double amazonInvestment = balance * 0.15;
-    double teslaInvestment = balance * 0.05;
+    cout << "=============================================\n";
+    cout << "             Investment Opportunities         \n";
+    cout << "=============================================\n";
+    cout << "Choose a company to invest in:\n\n";
+    cout << "Low Risk Companies:\n";
+    cout << " 1. Apple\n";
+    cout << " 2. Google\n";
+    cout << " 3. Microsoft\n";
+    cout << " 8. IBM\n";
+    cout << " 9. Oracle\n\n";
+    cout << "High Risk Companies:\n";
+    cout << " 4. Amazon\n";
+    cout << " 5. Tesla\n";
+    cout << " 6. Facebook\n";
+    cout << " 7. Netflix\n";
+    cout << " 10. Intel\n";
+    cout << "=============================================\n";
+    cout << "Enter the number corresponding to your choice: ";
 
-    double updatedBalance = balance;
-    switch(random) {
-        case APPLE:
-            updatedBalance += appleInvestment;
-            break;
-        case GOOGLE:
-            updatedBalance += googleInvestment;
-            break;
-        case MICROSOFT:
-            updatedBalance += microsoftInvestment;
-            break;
-        case AMAZON:
-            updatedBalance += amazonInvestment;
-            break;
-        case TESLA:
-            updatedBalance += teslaInvestment;
-            break;
+    int choice;
+    cin >> choice;
+
+    srand(time(0));
+    double investmentReturnPercent = ((rand() % 21) - 10) / 100.0; // Random percentage between -10% and 10%
+    if (choice >= 4 && choice <= 7 || choice == 10) {
+        investmentReturnPercent *= 2; // High risk companies have higher volatility
     }
 
-    cout << "Your updated account balance after investment would be: $" << updatedBalance << endl;
+    double investmentAmount;
+    string companyName;
+
+    switch(choice) {
+        case APPLE:
+            companyName = "Apple";
+            investmentAmount = balance * 0.1;
+            break;
+        case GOOGLE:
+            companyName = "Google";
+            investmentAmount = balance * 0.1;
+            break;
+        case MICROSOFT:
+            companyName = "Microsoft";
+            investmentAmount = balance * 0.1;
+            break;
+        case AMAZON:
+            companyName = "Amazon";
+            investmentAmount = balance * 0.15;
+            break;
+        case TESLA:
+            companyName = "Tesla";
+            investmentAmount = balance * 0.15;
+            break;
+        case FACEBOOK:
+            companyName = "Facebook";
+            investmentAmount = balance * 0.15;
+            break;
+        case NETFLIX:
+            companyName = "Netflix";
+            investmentAmount = balance * 0.15;
+            break;
+        case IBM:
+            companyName = "IBM";
+            investmentAmount = balance * 0.1;
+            break;
+        case ORACLE:
+            companyName = "Oracle";
+            investmentAmount = balance * 0.1;
+            break;
+        case INTEL:
+            companyName = "Intel";
+            investmentAmount = balance * 0.15;
+            break;
+        default:
+            cout << "Invalid choice. No investment made.\n";
+            return;
+    }
+
+    double investmentReturn = investmentAmount * investmentReturnPercent;
+    double updatedBalance = balance + investmentReturn;
+
+    cout << "\nYou chose to invest in " << companyName << ".\n";
+    if (investmentReturn > 0) {
+        cout << "Congratulations! Your investment grew by $" << investmentReturn << ".\n";
+    } else if (investmentReturn < 0) {
+        cout << "Unfortunately, your investment decreased by $" << -investmentReturn << ".\n";
+    } else {
+        cout << "Your investment neither gained nor lost value.\n";
+    }
+
+    cout << "Your updated account balance is: $" << updatedBalance << endl;
 }
 
 
@@ -181,20 +253,27 @@ int main() {
     }
     inFile.close();
 
-    cout << "Do you want to log into an existing account (1) or open a new account (2)?\n";
+    cout << "=========================================================\n";
+    cout << "                Welcome to the Banking System            \n";
+    cout << "=========================================================\n";
+    cout << "Do you want to:\n1. Log into an existing account\n2. Open a new account\n";
     cin >> userChoice;
 
     while (userChoice != 1 && userChoice != 2) {
-        cout << "Invalid choice, please select 1 to log into an existing account or 2 to open a new one.\n";
+        cout << "Invalid choice. Please try again.\n";
+        cout << "Do you want to:\n1. Log into an existing account\n2. Open a new account\n";
         cin >> userChoice;
     }
 
     if (userChoice == 2) {
-        // Open a new account
+        cout << "=========================================================\n";
+        cout << "                   Open a New Account                    \n";
+        cout << "=========================================================\n";
         cout << "Select account type:\n1. Savings\n2. Personal\n";
         cin >> accountType;
         while (accountType != 1 && accountType != 2) {
-            cout << "Invalid choice, please select 1 for Savings or 2 for Personal.\n";
+            cout << "Invalid choice. Please try again.\n";
+            cout << "Select account type:\n1. Savings\n2. Personal\n";
             cin >> accountType;
         }
 
@@ -206,6 +285,7 @@ int main() {
         cin >> age;
         while (!isAgeValid(age)) {
             cout << "Invalid age, you must be at least 18 years old.\n";
+            cout << "Enter your age: ";
             cin >> age;
         }
 
@@ -222,7 +302,9 @@ int main() {
 
         cout << "Account created successfully! Your account number is " << accountNumber << ".\n";
     } else {
-        // Log into an existing account
+        cout << "=========================================================\n";
+        cout << "             Log into an Existing Account                \n";
+        cout << "=========================================================\n";
         cout << "Enter your username: ";
         cin >> username;
         cout << "Enter your password: ";
@@ -232,34 +314,50 @@ int main() {
             cout << "Login successful.\n";
             displayAccountDetails(username);
 
-           do{ cout << "Select transaction type:\n1. Withdraw\n2. Deposit\n3. Transfer\n4. Simulate Investment.\n0. To Exit\n";
-    cin >> transactionChoice;
-    
-    while (transactionChoice > 4) {
-        cout << "Invalid choice, please select 1 for Withdraw, 2 for Deposit, 3 for Transfer, or 4 to Simulate Investment.\n";
-        cin >> transactionChoice;
-    }
-    if (transactionChoice ==0){
-        break;
-    }
-    else if (transactionChoice != 4) {  // If not Simulate Investment
-        cout << "Enter the amount: ";
-        cin >> amount;
-    }
+            do {
+                cout << "=========================================================\n";
+                cout << "                   Transaction Menu                      \n";
+                cout << "=========================================================\n";
+                cout << "Select transaction type:\n";
+                cout << "1. Withdraw\n";
+                cout << "2. Deposit\n";
+                cout << "3. Transfer\n";
+                cout << "4. Simulate Investment\n";
+                cout << "0. Exit\n";
+                cin >> transactionChoice;
 
-    if (transactionChoice == 3) {  // Transfer
-        string recipientUsername;
-        cout << "Enter recipient's username: ";
-        cin >> recipientUsername;
-        // First pass: Deduct amount from sender's account
-        updateAccount(username, amount, false);
-        // Second pass: Add amount to recipient's account
-        updateAccount(recipientUsername, amount, true);
-    } else if (transactionChoice == 4) {  
-        simulateInvestment(username);
-    } else {
-        updateAccount(username, amount, transactionChoice == 2);
-    }}while (transactionChoice !=0);
+                while (transactionChoice < 0 || transactionChoice > 4) {
+                    cout << "Invalid choice. Please try again.\n";
+                    cout << "Select transaction type:\n";
+                    cout << "1. Withdraw\n";
+                    cout << "2. Deposit\n";
+                    cout << "3. Transfer\n";
+                    cout << "4. Simulate Investment\n";
+                    cout << "0. Exit\n";
+                    cin >> transactionChoice;
+                }
+
+                if (transactionChoice == 0) {
+                    break;
+                } else if (transactionChoice != 4) {  // If not Simulate Investment
+                    cout << "Enter the amount: ";
+                    cin >> amount;
+                }
+
+                if (transactionChoice == 3) {  // Transfer
+                    string recipientUsername;
+                    cout << "Enter recipient's username: ";
+                    cin >> recipientUsername;
+                    // First pass: Deduct amount from sender's account
+                    updateAccount(username, amount, false);
+                    // Second pass: Add amount to recipient's account
+                    updateAccount(recipientUsername, amount, true);
+                } else if (transactionChoice == 4) {
+                    simulateInvestment(username);
+                } else {
+                    updateAccount(username, amount, transactionChoice == 2);
+                }
+            } while (transactionChoice != 0);
 
         } else {
             cout << "Login failed. Invalid username or password.\n";
@@ -268,6 +366,7 @@ int main() {
 
     return 0;
 }
+
 
 
 
