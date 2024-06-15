@@ -35,7 +35,7 @@ bool login(const string& username, const string& password) {
     return false;
 }
 
-/////////////////////////////////////////////////////////// MOIZ START ////////////////////////////////////////////////////////////
+
 
 void displayAccountDetails(const string& username) {
     ifstream file(FILENAME);
@@ -60,7 +60,7 @@ void displayAccountDetails(const string& username) {
     file.close();
 }
 
-/////////////////////////////////////////////////////////// MOIZ END ////////////////////////////////////////////////////////////
+
 
 void updateAccount(const string& username, double amount, bool isDeposit) {
     ifstream inFile(FILENAME);
@@ -105,7 +105,7 @@ void updateAccount(const string& username, double amount, bool isDeposit) {
     rename("temp.txt", FILENAME);
 }
 
-/////////////////////////////////////////////////////////// NAFAY START ////////////////////////////////////////////////////////////
+
 
 void simulateInvestment(const string& username) {
     ifstream inFile(FILENAME);
@@ -161,7 +161,7 @@ void simulateInvestment(const string& username) {
     cout << "Your updated account balance after investment would be: $" << updatedBalance << endl;
 }
 
-/////////////////////////////////////////////////////////// NAFAY END ////////////////////////////////////////////////////////////
+
 
 int main() {
     string name, username, password;
@@ -255,7 +255,7 @@ int main() {
         updateAccount(username, amount, false);
         // Second pass: Add amount to recipient's account
         updateAccount(recipientUsername, amount, true);
-    } else if (transactionChoice == 4) {  // Simulate Investment
+    } else if (transactionChoice == 4) {  
         simulateInvestment(username);
     } else {
         updateAccount(username, amount, transactionChoice == 2);
